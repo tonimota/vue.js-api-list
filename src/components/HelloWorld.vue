@@ -30,46 +30,46 @@ export default {
       state: ''
     }
   },
-  methods: {
-    spotAccess () {
-      this.redirectUri = 'http://localhost:8080/callback' // Your redirect uri
-      this.scope = 'user-read-private user-read-email';
-      this.state = this.generateRandomString(16);
-      const url = 'https://accounts.spotify.com/authorize/?' + 'response_type=' + 'code' + '&client_id=' + cliente_id + '&scope=' + scope + '&redirect_uri='  + redirectUri + '&state=' + state
-      window.location.href = url
-      console.log(url)
-    },
-    generateRandomString(length) {
-      let text = '';
-      let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  // methods: {
+  //   spotAccess () {
+  //     this.redirectUri = 'http://localhost:8080/callback' // Your redirect uri
+  //     this.scope = 'user-read-private user-read-email';
+  //     this.state = this.generateRandomString(16);
+  //     const url = 'https://accounts.spotify.com/authorize/?' + 'response_type=' + 'code' + '&client_id=' + cliente_id + '&scope=' + scope + '&redirect_uri='  + redirectUri + '&state=' + state
+  //     window.location.href = url
+  //     console.log(url)
+  //   },
+  //   generateRandomString(length) {
+  //     let text = '';
+  //     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-      for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-      }
-        return text;
-    }
-  },
-  mounted() {
-    this.encodeBase = btoa(this.cliente_id + ':' + this.cliente_secret)
-    const path = location.search.replace('?code=','')
-    if(path) {
-      axios.post('https://accounts.spotify.com/api/token', {
-        form: {
-          code: path,
-          redirect_uri: this.redirect_uri,
-          grant_type: 'authorization_code'
-        },
-        headers: {
-          'Authorization': 'Basic ' + this.encodeBase
-        },
-        json: true
-      }).then(response => {
-        console.log(response);
-      }).catch(e => {
-        console.log(e)
-      })
-    }
-  }
+  //     for (let i = 0; i < length; i++) {
+  //       text += possible.charAt(Math.floor(Math.random() * possible.length));
+  //     }
+  //       return text;
+  //   }
+  // },
+  // mounted() {
+  //   this.encodeBase = btoa(this.cliente_id + ':' + this.cliente_secret)
+  //   const path = location.search.replace('?code=','')
+  //   if(path) {
+  //     axios.post('https://accounts.spotify.com/api/token', {
+  //       form: {
+  //         code: path,
+  //         redirect_uri: this.redirect_uri,
+  //         grant_type: 'authorization_code'
+  //       },
+  //       headers: {
+  //         'Authorization': 'Basic ' + this.encodeBase
+  //       },
+  //       json: true
+  //     }).then(response => {
+  //       console.log(response);
+  //     }).catch(e => {
+  //       console.log(e)
+  //     })
+  //   }
+  // }
 }
 </script>
 
