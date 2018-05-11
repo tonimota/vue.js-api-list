@@ -1,23 +1,30 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <div class="container-fuid">
+       <navbar></navbar>
+    </div>
+    <router-view :key="$route.fullPath"/>
   </div>
 </template>
 
 <script>
+import Navbar from '@/components/navbar/Navbar'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    'navbar': Navbar
+  },
+  methods: {
+  }
 }
 </script>
 
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+body, html {
+  margin: 0px;
+  padding: 0px;
 }
 </style>
