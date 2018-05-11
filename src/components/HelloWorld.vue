@@ -1,16 +1,6 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <button @click="spotAcess()">Spotify</button>
-      </div>
-      <div class="col-sm">
-        One of three columns
-      </div>
-      <div class="col-sm">
-        One of three columns
-      </div>
-    </div>
+  <div class="col">
+    <h1>Selecione algum dos menus acima</h1>
   </div>
 </template>
 
@@ -88,6 +78,7 @@ export default {
 <style scoped>
 h1, h2 {
   font-weight: normal;
+  text-align: center;
 }
 ul {
   list-style-type: none;
