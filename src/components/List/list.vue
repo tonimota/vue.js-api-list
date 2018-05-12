@@ -1,23 +1,19 @@
 <template>
   <div>
-    <!-- <div class="row block-list">
-      <div class="col-lg-12">
-        <div class="input-group">
-          <input type="text" class="form-control" v-model="selected" placeholder="Pesquise por uma combinação de Prato...">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Go!</button>
-          </span>
-        </div>
-      </div>
-    </div> -->
     <div class="row block-list">
-      <div class="col-lg-12">
+      <div class="col-lg-4">
         <select class="option-malt" name="" id="">
           <option value="">Select a type of malt</option>
-          <option v-for="(malt, index) in selectsMalt" :key="index" :value="malt">{{malt}}</option>
+          <option v-for="(malt, index) in listMalt" :key="index" :value="malt">{{malt}}</option>
         </select>
       </div>
-      <div class="col-lg-12">
+      <div class="col-lg-4">
+        <select class="option-hops" name="" id="">
+          <option value="">Select a type of hops</option>
+          <option v-for="(hops, index) in listHops" :key="index" :value="hops">{{hops}}</option>
+        </select>
+      </div>
+      <div class="col-lg-2">
         <button @click="applyFilter()">Aplicar</button>
       </div>
     </div>
@@ -33,8 +29,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
-import mock from '../../../mock'
+import axios from 'axios'
+// import mock from '../../../mock'
 
 export default {
   name: 'List',
@@ -50,51 +46,75 @@ export default {
       nameProps: name,
       beers: [],
       food: '',
-      selectsMalt: {},
+      listMalt: {},
+      listHops: {},
       optionMalt: '',
+      optionHops: '',
       search: ''
     }
   },
   created () {
     this.path = this.$route.path
     if (this.path === '/beers') {
-      // axios.get('https://api.punkapi.com/v2/beers', {
-      // }).then(response => {
-      //   this.beers = response.data
-      //   this.filterBeer()
-      //   console.log(this.beers)
-      // }).catch(e => {
-      //   console.log(e)
-      // })
-      this.beers = mock
-      this.filterBeer()
+      axios.get('https://api.punkapi.com/v2/beers', {
+      }).then(response => {
+        this.beers = response.data
+        this.optionsFilter()
+        console.log(this.beers)
+      }).catch(e => {
+        console.log(e)
+      })
+      // this.beers = mock
+      this.optionsFilter()
     } else {
       console.log('not beers')
     }
   },
   methods: {
-    filterBeer () {
-      this.itens = []
+    optionsFilter () {
+      this.maltItem = []
+      this.hopsItem = []
       this.beers.forEach(index => {
+        let hops = index.ingredients.hops
+        hops.forEach(indice => {
+          this.hopsItem.push(indice.name)
+        })
         let malt = index.ingredients.malt
         malt.forEach(indice => {
-          this.itens.push(indice.name)
+          this.maltItem.push(indice.name)
         })
       })
-      this.selectsMalt = Array.from(new Set(this.itens))
+      this.listHops = Array.from(new Set(this.hopsItem)).sort()
+      console.log(this.listHops)
+      this.listMalt = Array.from(new Set(this.maltItem)).sort()
     },
     applyFilter () {
       this.optionMalt = document.querySelector('.option-malt').value
+      this.optionHops = document.querySelector('.option-hops').value
+      console.log(this.optionMalt)
+      console.log(this.optionHops)
     }
   },
   computed: {
     filteredBeers: function () {
       return this.beers.filter(beer => {
+        let controlMalt = false
+        let controlHops = false
+        let control = false
         for (let i = 0; i < beer.ingredients.malt.length; i++) {
           if (beer.ingredients.malt[i].name === this.optionMalt || this.optionMalt === '') {
-            return true
+            controlMalt = true
           }
         }
+        for (let i = 0; i < beer.ingredients.hops.length; i++) {
+          if (beer.ingredients.hops[i].name === this.optionHops || this.optionHops === '') {
+            controlHops = true
+          }
+        }
+        if (controlMalt && controlHops) {
+          control = true
+        }
+        return control
       })
     }
   }
