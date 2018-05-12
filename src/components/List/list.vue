@@ -14,7 +14,7 @@
       <div class="col-lg-12">
         <select class="option-malt" name="" id="">
           <option value="">Select a type of malt</option>
-          <option v-for="(malt, index) in selectsMalt" :key="index" :value="malt">{{malt}}</option>
+          <option v-for="(malt, index) in listMalt" :key="index" :value="malt">{{malt}}</option>
         </select>
       </div>
       <div class="col-lg-12">
@@ -50,7 +50,8 @@ export default {
       nameProps: name,
       beers: [],
       food: '',
-      selectsMalt: {},
+      listMalt: {},
+      listHops: {},
       optionMalt: '',
       search: ''
     }
@@ -61,30 +62,38 @@ export default {
       // axios.get('https://api.punkapi.com/v2/beers', {
       // }).then(response => {
       //   this.beers = response.data
-      //   this.filterBeer()
+      //   this.optionsFilter()
       //   console.log(this.beers)
       // }).catch(e => {
       //   console.log(e)
       // })
       this.beers = mock
-      this.filterBeer()
+      this.optionsFilter()
     } else {
       console.log('not beers')
     }
   },
   methods: {
-    filterBeer () {
-      this.itens = []
+    optionsFilter () {
+      this.maltItem = []
+      this.hopsItem = []
       this.beers.forEach(index => {
+        let hops = index.ingredients.hops
+        hops.forEach(indice => {
+          this.hopsItem.push(indice.name)
+        })
         let malt = index.ingredients.malt
         malt.forEach(indice => {
-          this.itens.push(indice.name)
+          this.maltItem.push(indice.name)
         })
       })
-      this.selectsMalt = Array.from(new Set(this.itens))
+      this.listHops = Array.from(new Set(this.hopsItem)).sort()
+      console.log(this.listHops)
+      this.listMalt = Array.from(new Set(this.maltItem)).sort()
     },
     applyFilter () {
       this.optionMalt = document.querySelector('.option-malt').value
+      console.log(this.optionsIngredients)
     }
   },
   computed: {
