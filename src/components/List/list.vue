@@ -60,7 +60,6 @@ export default {
       }).then(response => {
         this.beers = response.data
         this.optionsFilter()
-        console.log(this.beers)
       }).catch(e => {
         console.log(e)
       })
@@ -85,14 +84,11 @@ export default {
         })
       })
       this.listHops = Array.from(new Set(this.hopsItem)).sort()
-      console.log(this.listHops)
       this.listMalt = Array.from(new Set(this.maltItem)).sort()
     },
     applyFilter () {
       this.optionMalt = document.querySelector('.option-malt').value
       this.optionHops = document.querySelector('.option-hops').value
-      console.log(this.optionMalt)
-      console.log(this.optionHops)
     }
   },
   computed: {
