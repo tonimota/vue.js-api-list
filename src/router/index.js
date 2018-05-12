@@ -14,7 +14,6 @@ export default new Router({
       component: HelloWorld
     },
     {
-<<<<<<< HEAD
       path: '/beers',
       name: 'Beers',
       component: List,
@@ -29,11 +28,6 @@ export default new Router({
       props: {
         name: 'Starwars'
       }
-=======
-      path: '/Callback',
-      name: 'Callback',
-      component: HelloWorld
->>>>>>> feature/tm/integration
     }
   ]
 })
