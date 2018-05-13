@@ -5,7 +5,7 @@ const beers = axios.create({
 })
 
 const starwars = axios.create({
-  baseURL: 'https://swapi.co/api/planets/?format=json',
+  baseURL: 'https://swapi.co/api/planets/',
   timeout: 20000
 })
 

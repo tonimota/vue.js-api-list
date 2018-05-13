@@ -2,15 +2,15 @@
   <div>
     <div class="row block-list">
       <div class="col-lg-4">
-        <select class="option-malt" name="" id="">
-          <option value="">Select a type of malt</option>
-          <option v-for="(malt, index) in listMalt" :key="index" :value="malt">{{malt}}</option>
+        <select class="option-category_1" :id="firstClassName">
+          <option value="">{{firstPlaceholder}}</option>
+          <option v-for="(firstCategory, index) in listFirstCategory" :key="index" :value="firstCategory">{{firstCategory}}</option>
         </select>
       </div>
-      <div class="col-lg-4">
-        <select class="option-hops" name="" id="">
-          <option value="">Select a type of hops</option>
-          <option v-for="(hops, index) in listHops" :key="index" :value="hops">{{hops}}</option>
+      <div class="col-lg-4" v-if="listSecondCategory.length > 1">
+        <select class="option-category_2" :id="secondClassName">
+          <option value="">{{secondPlaceholder}}</option>
+          <option v-for="(secondCategory, index) in listSecondCategory" :key="index" :value="secondCategory">{{secondCategory}}</option>
         </select>
       </div>
       <div class="col-lg-2">
@@ -19,8 +19,11 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-md-3 col-md-offset-1 col-lg-4 col-lg-offset-0 item-list" v-for="(product, index) in products" :key="index" :id="product.name">
-        <a href="#">
-          <img class="product-image" :src='product.image_url || base ' alt="Imagem 1">
+        <a href="#" v-if="product.image_url === undefined">
+          <img class="product-image" src="../../assets/img/img-base.jpg" alt="Imagem 1">
+        </a>
+        <a href="#" v-else>
+          <img class="product-image" :src="product.image_url" alt="Imagem 1">
         </a>
         <div class="title-description">{{ product.name }}</div>
       </div>
@@ -34,7 +37,8 @@ import helper from './helper.js'
 import {
   getAllBeers as getBeers,
   getFindindBeers as findBeers,
-  getAllStarwars as getStarwars }
+  getAllStarwars as getStarwars,
+  getFindindPlanets as getPlanets }
   from '../../service/api'
 // import mock from '../../../mock'
 
@@ -51,29 +55,24 @@ export default {
       path: '',
       nameProps: name,
       products: [],
-      food: '',
-      listMalt: {},
-      listHops: {},
-      optionMalt: '',
-      optionHops: '',
+      listFirstCategory: {},
+      listSecondCategory: {},
+      firstOption: '',
+      secondOption: '',
       search: '',
-      base: '../../assets/img/img-base.jpg'
+      firstPlaceholder: '',
+      secondPlaceholder: '',
+      firstClassName: '',
+      secondClassName: ''
     }
   },
-  // ready () {
-  //   this.fetchBeers()
-  // },
   created () {
     this.path = this.$route.path
     if (this.path === '/beers') {
       this.fetchBeers()
-      // this.products = mock
-      // this.optionsFilter()
     }
     if (this.path === '/starwars') {
       this.fetchStarWars()
-    } else {
-      console.log('not beers')
     }
   },
   methods: {
@@ -81,7 +80,7 @@ export default {
       getBeers()
         .then(data => {
           this.products = data.data
-          this.optionsFilter()
+          this.optionsFilterBeers()
         })
         .catch(err => {
           console.log(err)
@@ -91,73 +90,80 @@ export default {
       getStarwars()
         .then(data => {
           this.products = data.data.results
-          console.log(this.products)
-          this.optionsFilter()
+          this.optionsFilterStarwars()
         })
         .catch(err => {
           console.log(err)
         })
     },
-    fetchSearch (search) {
+    fetchSearchBeer (search) {
       findBeers(search)
         .then(res => {
-          console.log(res.data)
           this.products = res.data
-          // this.optionsFilter()
         })
         .catch(err => {
           console.log(err)
         })
     },
-    optionsFilter () {
-      this.maltItems = []
-      this.hopsItems = []
+    fetchSearchPlanets (search) {
+      getPlanets(search)
+        .then(res => {
+          this.products = res.data.results
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    optionsFilterBeers () {
+      this.firstItem = []
+      this.secondItem = []
+      this.firstPlaceholder = 'Select a type of malt'
+      this.firstClassName = 'malt'
+      this.secondPlaceholder = 'Select a type of hops'
+      this.secondClassName = 'hops'
       this.products.forEach(index => {
-        let hops = index.ingredients.hops
-        Array.prototype.push.apply(this.hopsItems, helper.getIngredientNames(hops))
+        let firstCategory = index.ingredients.malt
+        Array.prototype.push.apply(this.firstItem, helper.getIngredientNames(firstCategory))
 
-        let malt = index.ingredients.malt
-        Array.prototype.push.apply(this.maltItems, helper.getIngredientNames(malt))
+        let secondCategory = index.ingredients.hops
+        Array.prototype.push.apply(this.secondItem, helper.getIngredientNames(secondCategory))
       })
-
-      this.listHops = Array.from(new Set(this.hopsItems)).sort()
-      this.listMalt = Array.from(new Set(this.maltItems)).sort()
+      this.listFirstCategory = Array.from(new Set(this.firstItem)).sort()
+      this.listSecondCategory = Array.from(new Set(this.secondItem)).sort()
+    },
+    optionsFilterStarwars () {
+      this.firstItem = []
+      this.firstPlaceholder = 'Select a name of planet'
+      this.firstClassName = 'search'
+      this.products.forEach(index => {
+        let firstCategory = index.name
+        this.firstItem.push(firstCategory)
+      })
+      this.listFirstCategory = Array.from(new Set(this.firstItem)).sort()
     },
     applyFilter () {
       this.search = ''
-      this.optionMalt = document.querySelector('.option-malt').value
-      this.optionHops = document.querySelector('.option-hops').value
-      if (this.optionMalt !== '') {
-        this.search += 'malt=' + this.optionMalt
+      this.firstOption = document.querySelector('.option-category_1').getAttribute('id') + '=' + document.querySelector('.option-category_1').value
+      if (document.querySelector('.option-category_2')) {
+        this.secondOption = '&' + document.querySelector('.option-category_2').getAttribute('id') + '=' + document.querySelector('.option-category_2').value
       }
-      if (this.optionHops !== '') {
-        this.search += '&hops=' + this.optionHops
+      if (this.firstOption !== '') {
+        this.search += this.firstOption
       }
-      this.fetchSearch(this.search)
+      if (this.secondOption !== '') {
+        this.search += this.secondOption
+      }
+      this.getDataPayload(this.search)
+    },
+    getDataPayload (search) {
+      if (search.match('search') === null) {
+        this.fetchSearchBeer(this.search)
+      } else {
+        this.fetchSearchPlanets(this.search)
+      }
     }
   },
   computed: {
-    // filteredBeers: function () {
-    //   return this.products.filter(beer => {
-    //     let controlMalt = false
-    //     let controlHops = false
-    //     let control = false
-    //     for (let i = 0; i < beer.ingredients.malt.length; i++) {
-    //       if (beer.ingredients.malt[i].name === this.optionMalt || this.optionMalt === '') {
-    //         controlMalt = true
-    //       }
-    //     }
-    //     for (let i = 0; i < beer.ingredients.hops.length; i++) {
-    //       if (beer.ingredients.hops[i].name === this.optionHops || this.optionHops === '') {
-    //         controlHops = true
-    //       }
-    //     }
-    //     if (controlMalt && controlHops) {
-    //       control = true
-    //     }
-    //     return true
-    //   })
-    // }
   }
 }
 </script>
