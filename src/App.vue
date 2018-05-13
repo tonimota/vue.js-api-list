@@ -1,19 +1,18 @@
 <template>
   <div id="app">
     <div class="container">
-       <navbar></navbar>
+      <home></home>
        <router-view :key="$route.fullPath"/>
     </div>
-
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/navbar/Navbar'
+import Home from '@/components/Home/Home'
 export default {
   name: 'App',
   components: {
-    'navbar': Navbar
+    'home': Home
   },
   methods: {
   }
