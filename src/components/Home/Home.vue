@@ -1,6 +1,8 @@
 <template>
-  <div class="col">
-    <navbar></navbar>
+  <div class="container-fluid">
+    <div class="row">
+      <navbar></navbar>
+    </div>
   </div>
 </template>
 

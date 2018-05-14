@@ -1,13 +1,13 @@
 <template>
   <div class="row navbar">
-    <div class="col-lg-4 col-md-4 col-sm-12 item">
-      <router-link :to="{ path: '/' }" title="Home">Home</router-link>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 item">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item">
       <router-link :to="{ path: '/beers' }" title="Beers">Beers</router-link>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12 item">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item">
       <router-link :to="{ path: '/starwars' }" title="Starwars">Starwars</router-link>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 item">
+      <router-link :to="{ path: '/favorite' }" title="Home">Favorite</router-link>
     </div>
   </div>
 </template>
@@ -24,10 +24,12 @@ a, li, ul {
   width: 100%;
   height: 60px;
   line-height: 60px;
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   z-index: 1;
+  border: 0px;
+  margin: 0px;
   .item {
     background-color: chocolate;
     text-align: center;

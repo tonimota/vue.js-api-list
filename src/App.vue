@@ -1,8 +1,8 @@
 <template>
   <div id="app">
+    <home></home>
     <div class="container">
-      <home></home>
-       <router-view :key="$route.fullPath"/>
+      <router-view :key="$route.fullPath"/>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
-// @import "./assets/css/bootstrap.min.css";
+@import "./assets/css/main.scss";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
