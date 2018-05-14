@@ -58,3 +58,20 @@
     color: #999999;
   }
 }
+.tooltiptext {
+  opacity: 0;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 15px;
+  transition: all 1s;
+  /* Position the tooltip */
+  position: fixed;
+  z-index: 1;
+  top: 70px;
+  right: 9%;
+}
+.tooltip-visible {
+  opacity: 1;
+}

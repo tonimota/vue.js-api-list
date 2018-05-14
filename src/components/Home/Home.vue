@@ -2,12 +2,13 @@
   <div class="container-fluid">
     <div class="row">
       <navbar></navbar>
+      <h2>Select one category of menus</h2>
     </div>
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/navbar/Navbar'
+import Navbar from '@/components/Navbar/Navbar'
 export default {
   name: 'Home',
   components: {

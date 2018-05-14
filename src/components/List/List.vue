@@ -14,7 +14,7 @@
         </select>
       </div>
       <div class="col-lg-1 col-md-4 col-sm-12 col-xs-12">
-        <button class="applyFilter" @click="applyFilter()">Aplicar</button>
+        <button class="applyFilter" @click="applyFilter()">Apply</button>
       </div>
       <div class="col-lg-1">
         <span class="tooltiptext">{{tooltipMessage}}</span>
@@ -33,7 +33,7 @@
           <img class="product-image" :src="product.image_url" alt="Imagem 1">
         </a>
         <div class="title-description">{{ product.name }}</div>
-        <button class="liked" @click.prevent="tootTip(product), addItemCart(product)">Adicionar aos Favoritos</button>
+        <button class="liked" @click.prevent="tootTip(product), addItemCart(product)">Add to Favorites</button>
       </div>
     </div>
   </div>
@@ -149,18 +149,22 @@ export default {
         })
     },
     fetchSearchBeer (search) {
+      this.loading = true
       findBeers(search)
         .then(res => {
           this.products = res.data
+          this.loading = false
         })
         .catch(err => {
           console.log(err)
         })
     },
     fetchSearchPlanets (search) {
+      this.loading = true
       getPlanets(search)
         .then(res => {
           this.products = res.data.results
+          this.loading = false
         })
         .catch(err => {
           console.log(err)
@@ -208,10 +212,10 @@ export default {
       this.getDataPayload(this.search)
     },
     getDataPayload (search) {
-      if (search.match('search') === null) {
-        this.fetchSearchBeer(this.search)
+      if (this.path === '/starwars') {
+        this.fetchSearchPlanets(search)
       } else {
-        this.fetchSearchPlanets(this.search)
+        this.fetchSearchBeer(search)
       }
     }
   },
@@ -221,16 +225,7 @@ export default {
 </script>
 
 <style lang="scss">
-%btn-standart {
-  border: 2px solid #ccc;
-  background-color: #fff;
-  height: 40px;
-}
-%btn-hover {
-  background-color: #539906;
-  border: 0px;
-  color: #fff;
-}
+@import '../../assets/css/_variables.scss';
 .block-loading {
   position: absolute;
   width: 100%;
@@ -245,8 +240,6 @@ export default {
 .block-list {
   margin-top: 70px;
   .applyFilter {
-    font-weight: bold;
-    width: 100%;
     @extend %btn-standart;
     &:hover {
     @extend %btn-hover;
@@ -270,22 +263,5 @@ select {
   border: 2px solid #ccc;
   background-color: #fff;
   cursor: pointer;
-}
-.tooltiptext {
-  opacity: 0;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 15px;
-  transition: all 1s;
-  /* Position the tooltip */
-  position: fixed;
-  z-index: 1;
-  top: 50px;
-  right: 9%;
-}
-.tooltip-visible {
-  opacity: 1;
 }
 </style>
