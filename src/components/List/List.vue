@@ -105,7 +105,6 @@ export default {
         this.newList.push(product)
       }
       localStorage.setItem('products', JSON.stringify(this.newList))
-      console.log(this.newList)
     },
     itensLocalStorageCheck () {
       let localItens = JSON.parse(localStorage.getItem('products'))

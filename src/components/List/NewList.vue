@@ -30,7 +30,6 @@ export default {
   },
   created () {
     this.products = JSON.parse(localStorage.getItem('products'))
-    // console.log(products)
   },
   methods: {
     removeItemNewList (product, item) {
