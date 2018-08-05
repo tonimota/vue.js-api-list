@@ -14,8 +14,8 @@ npm run dev
 # build for production with minification
 npm run build
 
-# server node running application in port:3000
-npm start (necessary 'npm run build' before)
+# build for production with minification and server node running application in port:3000
+npm start
 ```
 ### Plugins ###
 This boilerplate comes with a couple of plugins you can use.

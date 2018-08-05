@@ -15,7 +15,7 @@
           <img class="product-image" :src="product.image_url" alt="Imagem 1">
         </a>
         <div class="title-description">{{ product.name }}</div>
-        <button class="dislike" @click.prevent="tootTip(), removeItemNewList(product, index)">Remove to Favorites</button>
+        <button class="dislike" @click.prevent="tootTip(), removeItemNewList(product, index)">Remove from Favorites</button>
       </div>
     </div>
   </div>
