@@ -1,4 +1,3 @@
-# reclameaqui
 
 > A Vue.js project
 
